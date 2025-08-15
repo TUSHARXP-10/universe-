@@ -593,6 +593,26 @@ class PortfolioApp {
             document.getElementById('get-access-btn')
         ].filter(btn => btn !== null);
 
+        // Demo Dashboard Button Animation
+        const demoBtn = document.getElementById('demo-dashboard-btn');
+        if (demoBtn) {
+            demoBtn.addEventListener('click', (e) => {
+                // Add ripple effect
+                demoBtn.classList.add('clicked');
+                
+                // Add enhanced vibration effect
+                demoBtn.classList.add('vibrating');
+                
+                // Remove classes after animation
+                setTimeout(() => {
+                    demoBtn.classList.remove('clicked', 'vibrating');
+                }, 600);
+                
+                // Add sparkle effect
+                this.createSparkleEffect(demoBtn);
+            });
+        }
+
         buttons.forEach(button => {
             // Create unique message ID based on button ID
             const messageId = button.id.includes('red-machine') ? 'access-message-red-machine' : 'access-message-general';
