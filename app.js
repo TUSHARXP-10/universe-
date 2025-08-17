@@ -335,10 +335,30 @@ class PortfolioApp {
 
         projectsGrid.innerHTML = '';
 
-        this.projects.forEach((project, index) => {
+        // Show only 2 projects initially for optimization
+        const displayProjects = this.projects.slice(0, 2);
+        
+        displayProjects.forEach((project, index) => {
             const projectCard = this.createProjectCard(project, index);
             projectsGrid.appendChild(projectCard);
         });
+
+        // Add Show More button with creative design
+        const showMoreContainer = document.createElement('div');
+        showMoreContainer.className = 'show-more-container';
+        showMoreContainer.innerHTML = `
+            <a href="all-projects.html" class="show-more-btn">
+                <span class="show-more-text">Show All Projects</span>
+                <div class="show-more-glow"></div>
+                <div class="show-more-particles">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </a>
+            <div class="project-count">
+                <span class="count-text">${this.projects.length} total projects</span>
+            </div>
+        `;
+        projectsGrid.appendChild(showMoreContainer);
         
         console.log('Project cards setup complete');
     }
@@ -587,9 +607,10 @@ class PortfolioApp {
 
     // GET ACCESS Button Functionality
     setupGetAccessButton() {
-        // Handle both buttons - red machine and general
+        // Handle all buttons - red machine, red sentiments, and general
         const buttons = [
             document.getElementById('get-access-btn-red-machine'),
+            document.getElementById('get-access-btn-red-sentiments'),
             document.getElementById('get-access-btn')
         ].filter(btn => btn !== null);
 
@@ -615,7 +636,14 @@ class PortfolioApp {
 
         buttons.forEach(button => {
             // Create unique message ID based on button ID
-            const messageId = button.id.includes('red-machine') ? 'access-message-red-machine' : 'access-message-general';
+            let messageId;
+            if (button.id.includes('red-sentiments')) {
+                messageId = 'access-message-red-sentiments';
+            } else if (button.id.includes('red-machine')) {
+                messageId = 'access-message-red-machine';
+            } else {
+                messageId = 'access-message-general';
+            }
             
             // Create access message element if it doesn't exist
             let accessMessage = document.getElementById(messageId);
